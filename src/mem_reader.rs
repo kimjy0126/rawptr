@@ -77,4 +77,22 @@ impl MemReader {
             println!();
         }
     }
+
+    pub fn read(&self, address: ByteAddress, offset: i32, range: u32) -> Vec<u64> {
+        let starting_address: ByteAddress = (address as i64 + offset as i64) as ByteAddress;
+        let mut result: Vec<u64> = vec![];
+
+        for i in 0..range / 8 {
+            let mut val: u64 = 0;
+            for j in 0..8 {
+                unsafe {
+                    let value: u8 = *((starting_address as u64 + (i * 8) as u64 + j as u64) as *const u8);
+                    val += ((value as u64) << (8 * j)) as u64;
+                }
+            }
+            result.push(val);
+        }
+
+        result
+    }
 }
