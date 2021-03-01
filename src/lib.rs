@@ -1,4 +1,4 @@
-mod mem_reader;
+pub mod mem_reader;
 
 #[cfg(test)]
 mod tests {
