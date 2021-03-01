@@ -53,10 +53,10 @@ impl MemReader {
         let alignment = self.alignment;
 
         for i in 0..range / alignment {
-            print!("{:?}: ", (address as u64 + (i * alignment) as u64) as ByteAddress);
+            print!("{:?}: ", (starting_address as u64 + (i * alignment) as u64) as ByteAddress);
             for j in 0..alignment {
                 unsafe {
-                    print!("{:02x} ", *((address as u64 + (i * alignment) as u64 + j as u64) as *const u8));
+                    print!("{:02x} ", *((starting_address as u64 + (i * alignment) as u64 + j as u64) as *const u8));
                 }
             }
             println!();

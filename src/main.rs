@@ -8,5 +8,5 @@ fn main() {
 
     let ptr: *const u64 = &dummy;
     let adrs: ByteAddress = ptr as usize as ByteAddress;
-    reader.print(adrs);
+    reader.print_with_range(adrs, -8, 16);
 }
