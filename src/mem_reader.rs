@@ -6,6 +6,9 @@ pub struct MemReader {
 }
 
 impl MemReader {
+    /// Make `MemReader` with default config.
+    ///
+    /// In default config, `offset` is `0`, `range` is `8`, and `alignment` is `8`.
     pub fn new() -> MemReader {
         MemReader {
             offset: 0,
@@ -34,8 +37,10 @@ impl MemReader {
         self
     }
 
-    pub fn alignment(mut self, alignment: u32) -> MemReader {
+    pub fn set_alignment(mut self, alignment: u32) -> MemReader {
         self.alignment = alignment;
         self
     }
+
+//    pub fn print_with_range(&self, 
 }
