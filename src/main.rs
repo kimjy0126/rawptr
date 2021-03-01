@@ -18,6 +18,6 @@ fn main() {
 //    let ptr2: *const u64 = &dummy2;
     reader.print_with_range(adrs, -16, 16 * 20);
 
-    let result = reader.read(adrs, 0, 24);
-    println!("{:08x} | {:08x} | {:08x}", result[0], result[1], result[2]);
+    let result = reader.read(adrs, 0, 22);
+    println!("{:016x} | {:016x} | {:016x}", result[0], result[1], result[2]);
 }
