@@ -1,3 +1,5 @@
+use std::char;
+
 use crate::types::*;
 
 /// Struct which is used to read virtual memory contents.
@@ -29,7 +31,7 @@ impl MemReader {
         self
     }
 
-    /// Set `range` value for `MemReader`
+    /// Set `range` value for `MemReader`.
     ///
     /// `range` notates how many bytes `MemReader` should read. For example, if `range` is `16`,
     /// and the starting address is `0x8880`, `MemReader` reads `16` bytes from `0x8880` and ends
@@ -44,20 +46,33 @@ impl MemReader {
         self
     }
 
+    /// Prints what is in the given address, with preset config.
     pub fn print(&self, address: ByteAddress) {
         self.print_with_range(address, self.offset, self.range);
     }
 
+    /// Prints what is in the given address, with given config.
     pub fn print_with_range(&self, address: ByteAddress, offset: i32, range: u32) {
         let starting_address: ByteAddress = (address as i64 + offset as i64) as ByteAddress;
         let alignment = self.alignment;
 
         for i in 0..range / alignment {
-            print!("{:?}: ", (starting_address as u64 + (i * alignment) as u64) as ByteAddress);
+            print!("\x1b[0;32m{:?}\x1b[0m: ", (starting_address as u64 + (i * alignment) as u64) as ByteAddress);
+            let mut ch: Vec<char> = vec![];
             for j in 0..alignment {
                 unsafe {
-                    print!("{:02x} ", *((starting_address as u64 + (i * alignment) as u64 + j as u64) as *const u8));
+                    let value: u8 = *((starting_address as u64 + (i * alignment) as u64 + j as u64) as *const u8);
+                    print!("{:02x} ", value);
+                    if 32 <= value && value <= 126 {
+                        ch.push(char::from_u32(value as u32).unwrap());
+                    } else {
+                        ch.push('.');
+                    }
                 }
+            }
+            print!("        ");
+            for c in ch.iter() {
+                print!("{}", c);
             }
             println!();
         }
