@@ -1,3 +1,5 @@
+use crate::types::*;
+
 /// Struct which is used to read virtual memory contents.
 pub struct MemReader {
     offset: i32,
@@ -42,5 +44,22 @@ impl MemReader {
         self
     }
 
-//    pub fn print_with_range(&self, 
+    pub fn print(&self, address: ByteAddress) {
+        self.print_with_range(address, self.offset, self.range);
+    }
+
+    pub fn print_with_range(&self, address: ByteAddress, offset: i32, range: u32) {
+        let starting_address: ByteAddress = (address as i64 + offset as i64) as ByteAddress;
+        let alignment = self.alignment;
+
+        for i in 0..range / alignment {
+            print!("{:?}: ", (address as u64 + (i * alignment) as u64) as ByteAddress);
+            for j in 0..alignment {
+                unsafe {
+                    print!("{:02x} ", *((address as u64 + (i * alignment) as u64 + j as u64) as *const u8));
+                }
+            }
+            println!();
+        }
+    }
 }
