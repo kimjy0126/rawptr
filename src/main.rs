@@ -11,7 +11,7 @@ fn main() {
     let reader: MemReader = MemReader::new().set_alignment(16);
 
     let ptr: *const u64 = &dummy;
-    let adrs: ByteAddress = ptr as usize as ByteAddress;
+    let adrs: ByteAddress = ByteAddress::from(ptr as u64);
     
 //    let ptr2: *const u64 = &dummy2;
     println!("{}", kk);
