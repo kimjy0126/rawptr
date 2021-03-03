@@ -64,13 +64,11 @@ impl MemReader {
         let alignment = self.alignment;
 
         for i in 0..range / alignment {
-//            print!("\x1b[0;32m{:?}\x1b[0m: ", (starting_address as u64 + (i * alignment) as u64) as ByteAddress);
-            print!("\x1b[0;32m{:?}\x1b[0m: ", starting_address + (i * alignment) as u64);
+            print!("\x1b[0;32m{:?}\x1b[0m: ", (starting_address + (i * alignment) as u64).0);
             let mut ch: Vec<char> = vec![];
             for j in 0..alignment {
                 unsafe {
                     let value: u8 = **(starting_address + (i * alignment + j) as u64);
-//                    let value: u8 = *((starting_address as u64 + (i * alignment) as u64 + j as u64) as ByteAddress);
                     print!("{:02x} ", value);
                     if 32 <= value && value <= 126 {
                         ch.push(char::from_u32(value as u32).unwrap());

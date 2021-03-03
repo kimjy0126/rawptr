@@ -2,17 +2,8 @@ use std::ops::Add;
 use std::ops::Sub;
 use std::ops::Deref;
 
-//pub type ByteAddress = *const u8;
-#[derive(Debug, Clone, Copy)]
-pub struct ByteAddress(*const u8);
-
-pub trait ByteAddressMethods {
-
-}
-
-impl ByteAddressMethods for ByteAddress {
-
-}
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ByteAddress(pub *const u8);
 
 impl Add<u64> for ByteAddress {
     type Output = Self;
