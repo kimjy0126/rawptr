@@ -15,9 +15,18 @@ fn main() {
     
 //    let ptr2: *const u64 = &dummy2;
     println!("{}", kk);
-//    let ptr2: *const u64 = &dummy2;
     reader.print_with_range(adrs, -16, 16 * 20);
 
     let result = reader.read(adrs, 0, 22);
     println!("{:016x} | {:016x} | {:016x}", result[0], result[1], result[2]);
+
+    let result = reader.read(adrs, 24, 8);
+    println!("{:016x}", result[0]);
+
+    let reader8: MemReader = MemReader::new().set_alignment(8);
+    reader8.print(ByteAddress::from(result[0]));
+    let result = reader8.read(ByteAddress::from(result[0]), 0, 8);
+    println!();
+    let reader = reader.set_alignment(32);
+    reader.print_with_range(ByteAddress::from(result[0]), -32 * 20, 32 * 160);
 }
