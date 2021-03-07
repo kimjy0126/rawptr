@@ -55,15 +55,20 @@ impl MemReader {
     pub fn print_with_range(&self, address: ByteAddress, offset: i32, range: u32) {
         let alignment = self.alignment;
         let starting_address: ByteAddress;
+        let newrange: u32;
         if offset >= 0 {
             let offset: u64 = offset as u64;
             starting_address = (address + offset) / alignment as u64 * alignment;
+            newrange = ((address + offset) + range as u64 - starting_address.0 as u64).0 as u32;
         } else {
             let offset: u64 = ((-1) * offset) as u64;
             starting_address = (address - offset) / alignment as u64 * alignment;
+            newrange = ((address + offset) + range as u64 - starting_address.0 as u64).0 as u32;
         }
 
-        for i in 0..range / alignment {
+        let range = newrange;
+
+        for i in 0..range / alignment + if range % alignment == 0 { 0 } else { 1 } {
             print!("\x1b[0;32m{:?}\x1b[0m: ", (starting_address + (i * alignment) as u64).0);
             let mut ch: Vec<char> = vec![];
             for j in 0..alignment {
