@@ -53,15 +53,15 @@ impl MemReader {
 
     /// Prints what is in the given address, with given config.
     pub fn print_with_range(&self, address: ByteAddress, offset: i32, range: u32) {
+        let alignment = self.alignment;
         let starting_address: ByteAddress;
         if offset >= 0 {
             let offset: u64 = offset as u64;
-            starting_address = address + offset;
+            starting_address = (address + offset) / alignment as u64 * alignment;
         } else {
             let offset: u64 = ((-1) * offset) as u64;
-            starting_address = address - offset;
+            starting_address = (address - offset) / alignment as u64 * alignment;
         }
-        let alignment = self.alignment;
 
         for i in 0..range / alignment {
             print!("\x1b[0;32m{:?}\x1b[0m: ", (starting_address + (i * alignment) as u64).0);
